@@ -85,8 +85,10 @@ class DetectorBase(object):
         """
         => version string /None
         """
-        version_markers = self.version_markers if \
-            isinstance(self.version_markers[0], (list, tuple)) else [self.version_markers]
+        if isinstance(self.version_markers[0], (list, tuple)) :
+            version_markers = self.version_markers
+        else :
+            version_markers = [self.version_markers]
         version_part = agent.split(word, 1)[-1]
         for start, end in version_markers:
             if version_part.startswith(start) and end in version_part:
@@ -645,7 +647,7 @@ def detect(agent, fill_none=False):
         for detector in detectors:
             try:
                 detector.detect(agent, result)
-            except Exception as _err:
+            except Exception, _err:
                 pass
 
     if fill_none:
